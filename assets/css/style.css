@@ -1,0 +1,92 @@
+.fs-custom {
+    font-size: calc(1.275rem + .3vw) !important;
+    font-weight: 700 !important;
+}
+
+.step-count {
+    position: absolute;
+    padding: 0px 1.6rem;
+    color: rgba(206, 203, 203, 0.308);
+    font-size: 72px;
+    font-weight: bold;
+}
+
+.banner {
+    height: 90vh !important;
+}
+
+.centered-form{
+    max-width: 45% !important;
+}
+
+.h6{
+    font-size: 11px;
+    letter-spacing: 2px !important;
+}
+
+/* =========== */
+/* Team styles */
+.team-members .card img {
+    height: 260px;
+}
+.team-members .card-img-overlay {
+    background-color: rgba(0, 0, 0, 0.445) !important;
+}
+.team-members .card-title {
+    font-size: 1.25rem !important;
+}
+/* Team styles */
+/* =========== */
+
+
+/* ============= */
+/* Footer styles */
+.app-store{
+    width: 200px;
+    height: 50px;
+}
+
+.social span{
+    cursor: pointer;
+}
+
+svg {
+    width: 32px;
+    height: 32px;
+    font-size: 24px;
+    padding: 0 5px;
+}
+/* Footer styles End */
+/* ================= */
+
+/* ======================= */
+/* start responsive styles */
+/* For small screen mobiles */
+@media only screen and (max-width: 320px) {
+    .fs-custom {
+        font-size: 18px !important;
+    }
+}
+/* For Tablets and large screen phones */
+@media only screen and (max-width: 768px) {
+    .banner {
+        height: 100% !important;
+    }
+    .centered-form{
+        max-width: 100% !important;
+    }
+}
+/* For Tablets only*/
+@media only screen and (max-width: 768px) and (min-width: 426px) {
+    .team-members .card-title {
+        font-size: 0.9rem !important;
+    }
+}
+/* For small laptops */
+@media only screen and (max-width: 1024px) and (min-width: 769px) {
+    .team-members .card-title {
+        font-size: 1.2rem !important;
+    }
+}
+/* end responsive styles */
+/* ===================== */

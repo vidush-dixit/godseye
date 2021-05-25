@@ -1,0 +1,104 @@
+/* ======================= */
+/* start custom scroll bar */
+
+::-webkit-scrollbar {
+    width: 15px;
+    background: transparent;
+    opacity: 0;
+}
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 1px grey; 
+    background: rgb(31, 30, 30);
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #00F260;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom right, #0575E6, #00F260);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom right, #0575E6, #00F260); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ 
+    border-radius: 10px;
+}
+/* Handle on hover */
+/* ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom,#000, #8e2de2);
+} */
+/* end custom scroll bar */
+/* ===================== */
+
+/* ======================== */
+/* start custom theme style */
+.btn-theme{
+    background: #00F260;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #0575E6, #00F260);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #0575E6, #00F260); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background-repeat: no-repeat;
+    border: 1.4px solid #0575E6;
+    color: white;
+}
+
+.btn-group-theme{
+    background: #0575E6;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #0575E6, #0575E6);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #0575E6, #0575E6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background-repeat: no-repeat;
+    border: 1.4px solid #0575E6;
+    color: white;
+}
+
+.btn-group-theme-rev{
+    background: #00F260;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #0575E6 5%, #00F260 95%);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #0575E6 2%, #00F260 99%); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background-repeat: no-repeat;
+    border: 1.4px solid #0575E6;
+    color: white;
+}
+.btn-theme:hover, .btn-group-theme:hover, .btn-group-theme-rev:hover {
+    color: #fff;
+}
+
+.icon-theme{
+    background: #00F260 !important;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #0575E6, #00F260) !important;  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #0575E6, #00F260) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    -webkit-background-clip: text !important;
+    -moz-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+}
+
+.hr-theme{
+    display: inline-block;
+    background: #01baef;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #0140ef 30%, #0bf129 80%);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #0140ef 30%, #0bf129 80%); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    width: 6vw !important;
+    height: 4px !important;
+    margin: 0 auto;
+}
+
+.bg-theme-dark{
+    background: #1f2532;
+}
+
+.bg-theme{
+    background: #00F260;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #0575E6, #00F260);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #0575E6, #00F260); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.bg-theme-img{
+    background: #1f2532;
+    background: url('../images/bg-theme-img_3.jpg') no-repeat center center fixed;
+    background-size: cover;
+    overflow: hidden;
+    backdrop-filter: blur(4px);
+}
+
+input:hover, textarea:hover{
+    border: 1px solid #01baef;
+}
+/* end custom theme style */
+/* ====================== */

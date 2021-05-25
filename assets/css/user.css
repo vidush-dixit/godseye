@@ -1,0 +1,35 @@
+html, body{
+	padding: 0;
+	margin: 0;
+}
+html{
+	height: 100%;
+}
+body{
+	min-height: 100%;
+}
+.brand {
+	width: 90px;
+	height: 90px;
+	overflow: hidden;
+	border-radius: 50%;
+	margin: 50px auto 30px;
+	box-shadow: 0 4px 8px rgba(0,0,0,.05);
+	position: relative;
+	z-index: 1;
+}
+
+.brand img {
+	width: 100%;
+	height: 100%;
+}
+
+.card-wrapper {
+	width: 400px;
+}
+
+@media only screen and (max-width: 425px) {
+    .brand{
+		margin: 30px auto 25px;
+    }
+}
