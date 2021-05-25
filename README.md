@@ -5,7 +5,7 @@ This is Intellgent Surveillance System built with express, handlebars & mongoDB,
 
 ### Installation for local Machine
 ----------------------------------
-01. `Download and install Node (https://nodejs.org/en/) and Mongo (https://docs.mongodb.com/manual/installation/)`
+01. `Download and install [Node](https://nodejs.org/en/) and [MongoDB](https://docs.mongodb.com/manual/installation/)`
 02. `git clone https://github.com/vidush-dixit/godseye.git` or `Download .zip file`
 03. `Extract and Navigate inside Project Folder`
 04. `Open Terminal`
