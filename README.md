@@ -1,5 +1,4 @@
-# godseye
-##Intelligent Surveillance System
+# godseye (Intelligent Surveillance System)
 -------------------------------
 
 This is Intellgent Surveillance System built with express, handlebars & mongoDB, AJAX (client-server Requests), Materialize+Boostrap (Front-end) and jQuery.
