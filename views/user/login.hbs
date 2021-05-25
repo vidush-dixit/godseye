@@ -1,0 +1,104 @@
+<h4 class="card-title w-100 m-0 py-3 text-center text-uppercase btn-theme">{{title}}</h4>	
+<div class="card-body rounded-lg shadow-lg">
+    <form>
+        <div class="mb-3">
+            <label for="email">E-Mail Address</label>
+            <input id="email" type="email" class="form-control" name="email" value="" required autofocus>
+            <div class="invalid-feedback"></div>
+        </div>
+
+        <div class="mb-1">
+            <label for="password">Password</label>
+            <input id="password" type="password" class="form-control" name="password" required data-eye>
+            <div class="invalid-feedback"></div>
+        </div>
+
+        <div class="mb-3">
+            <a href="/user/forgot-password" class="float-right">
+                Forgot Password?
+            </a>
+        </div>
+
+        <div class="alert mb-3 d-none" role="alert"></div>
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-theme btn-block w-100">
+                Login
+            </button>
+        </div>
+        <div class="text-center">
+            Don't have an account? <a href="/user/register">Sign Up</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    const form = document.querySelector('form');
+    const btn = document.querySelector('form button');
+    
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Reset errors for every submit
+        const invalidElements = document.querySelectorAll('.is-invalid');
+        [].forEach.call(invalidElements, function(invalidElement) {
+            invalidElement.classList.remove('is-invalid');
+        });
+        const alertElement = document.querySelector('form div.alert');
+        alertElement ? alertElement.className = "alert mb-3 d-none" : '';
+        alertElement.innerHTML = '';
+
+        // Disable Submit button
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Logging In...';
+
+        // Get Form Data
+        const email = form.email.value;
+        const password = form.password.value;
+        
+        try {
+            const res = await fetch('/user/login', {
+                method: 'POST',
+                body: JSON.stringify({ email, password }),
+                headers: { 'Content-Type' : 'application/json' }
+            });
+            const data = await res.json();
+
+            if (data.errors) {
+                // Handle Validation errors here
+                const errKey = Object.keys(data.errors)[0];
+                if (errKey != 'account') {
+                    const errElement = form.elements.namedItem(errKey);
+                    errElement.classList.add('is-invalid');
+                    errElement.nextElementSibling.innerHTML = Object.values(data.errors)[0];
+                }
+                else {
+                    alertElement.className = "alert alert-warning mb-3 text-center";
+                    alertElement.innerHTML = Object.values(data.errors)[0];
+                }
+                btn.disabled = false;
+                btn.innerHTML = 'Login';
+                
+                form.password.value = "";
+            }
+            if (data.success) {
+                btn.innerHTML = 'Login';
+                alertElement.className = "alert alert-success mb-3 text-center";
+                alertElement.innerHTML = Object.values(data.success)[0] + ".<br>Redirecting to Home Page";
+                form.email.value = form.password.value = "";
+                setTimeout(function(){
+                    location.assign('/');
+                }, 3000);
+            }
+        }
+        catch (err) {
+            form.password.value = "";
+            
+            alertElement.className = "alert alert-danger mb-3 text-center";
+            alertElement.innerHTML = "Server Error! Try Again";
+
+            btn.disabled = false;
+            btn.innerHTML = 'Login';
+        }
+    });
+</script>

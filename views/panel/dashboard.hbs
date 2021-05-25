@@ -1,0 +1,87 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+            <div class="card-header card-header-primary">
+                <div class="row">
+                    <div class="col-12 col-md-5">
+                        <h4 class="card-title">Live Feed</h4>
+                        <p class="card-category">Real-time object detection in Feed</p>
+                    </div>
+                    <div class="col-12 col-md-3 d-flex justify-content-center align-items-center mt-4 mt-md-0">
+                        <select class="custom-select disabled d-none" aria-label="Select Camera"></select>
+                    </div>
+                    <div class="col-12 col-md-4 d-flex justify-content-center align-items-center p-0">
+                        <button type="button" class="btn btn-success"></button>
+                        <button type="button" class="btn btn-danger disabled d-none" disabled>Stop</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-center video-container">
+                    <!-- <img src="../assets/images/Prediction/Smoke_prediction.png" width="1000" height="480" alt="Live Feed Detector" class="video px-4 py-3"> -->
+                    <video id="liveFeed" autoplay muted playsinline></video>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header card-header-success">
+                    <h4 class="card-title">Recent Incidents</h4>
+                    <p class="card-category">Lists recent incidents</p>
+                </div>
+                <div class="card-body table-responsive">
+                    <table class="table table-hover">
+                        <thead class="text-warning">
+                            <th>Incident Class</th>
+                            <th>Prediction Probability</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Severity Level</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Violence</td>
+                                <td>49.34%</td>
+                                <td>26-04-2021</td>
+                                <td>21:34</td>
+                                <td>Moderate</td>
+                            </tr>
+                            <tr>
+                                <td>Accident</td>
+                                <td>51.7%</td>
+                                <td>26-04-2021</td>
+                                <td>16:17</td>
+                                <td>High</td>
+                            </tr>
+                            <tr>
+                                <td>Fire</td>
+                                <td>62.8%</td>
+                                <td>26-04-2021</td>
+                                <td>13:53</td>
+                                <td>High</td>
+                            </tr>
+                            <tr>
+                                <td>Violence</td>
+                                <td>28.42%</td>
+                                <td>26-04-2021</td>
+                                <td>09:26</td>
+                                <td>Low</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Import TensorFlow.js library -->
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
+<!-- Target Classes -->
+<script src="../js/target_classes.js"></script>
+<!-- Prediction script -->
+<script src="../js/predict.js"></script>

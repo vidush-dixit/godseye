@@ -1,0 +1,10 @@
+<footer class="footer">
+    <div class="container-fluid">
+        <div class="copyright mx-auto" id="date"></div>
+    </div>
+</footer>
+<script>
+    const x = new Date().getFullYear();
+    let date = document.getElementById('date');
+    date.innerHTML = '&copy; <p class="d-inline-block text-success">GodsEye</p> | ' + x + date.innerHTML;
+</script>

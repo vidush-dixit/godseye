@@ -1,0 +1,37 @@
+<div class="sidebar" data-color="green" data-background-color="black">
+    <div class="logo">
+    <a href="#" class="simple-text logo-normal font-weight-bold">
+        GodsEye
+    </a>
+    </div>
+    <div class="sidebar-wrapper">
+    <ul class="nav">
+        <li class="nav-item {{#if isDashboard}}active{{/if}}">
+        <a class="nav-link" href="/panel/dashboard">
+            <i class="material-icons">dashboard</i>
+            <p>Dashboard</p>
+        </a>
+        </li>
+        <li class="nav-item  {{#if isProfile}}active{{/if}}">
+        <a class="nav-link" href="/panel/profile">
+            <i class="material-icons">person</i>
+            <p>Profile</p>
+        </a>
+        </li>
+        {{#if user.isAdmin}}
+        <li class="nav-item  {{#if isManageUsers}}active{{/if}}">
+        <a class="nav-link" href="/panel/manage-users">
+            <i class="material-icons">content_paste</i>
+            <p>Manage Users</p>
+        </a>
+        </li>
+        {{/if}}
+        <li class="nav-item  {{#if isAnalytics}}active{{/if}}">
+        <a class="nav-link" href="/panel/analytics">
+            <i class="material-icons">library_books</i>
+            <p>Analytics</p>
+        </a>
+        </li>
+    </ul>
+    </div>
+</div>

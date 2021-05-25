@@ -1,0 +1,100 @@
+<h4 class="card-title w-100 m-0 py-3 text-center text-uppercase btn-theme">{{title}}</h4>	
+<div class="card-body rounded-lg shadow-lg">
+    <form>
+        <div class="mb-3">
+            <label for="new-password">New Password</label>
+            <input id="new-password" type="password" class="form-control" name="password" required autofocus data-eye>
+            <div class="invalid-feedback"></div>
+            <div class="form-text text-muted">
+                Make sure your password is strong and easy to remember
+            </div>
+        </div>
+
+        <div class="alert mb-3 d-none" role="alert"></div>
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-theme btn-block w-100">
+                Reset Password
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+    const form = document.querySelector('form');
+    const btn = document.querySelector('form button');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Reset errors for every submit
+        const invalidElements = document.querySelectorAll('.is-invalid');
+        [].forEach.call(invalidElements, function(invalidElement) {
+            invalidElement.classList.remove('is-invalid');
+        });
+        const alertElement = document.querySelector('form div.alert');
+        alertElement ? alertElement.className = "alert mb-3 d-none" : '';
+        alertElement.innerHTML = '';
+
+        // Disable Submit button
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Resetting Password...';
+
+        // Get Form Data
+        const password = form.password.value;
+        
+        try {
+            const res = await fetch('/user/reset-password', {
+                method: 'POST',
+                body: JSON.stringify({ password }),
+                headers: { 'Content-Type' : 'application/json' }
+            });
+            
+            const data = await res.json();
+            
+            if (data.errors) {
+                // Handle Validation errors here
+                const errKey = Object.keys(data.errors)[0];
+                if (errKey != 'server') {
+                    const errElement = form.elements.namedItem(errKey);
+                    errElement.classList.add('is-invalid');
+                    errElement.nextElementSibling.innerHTML = Object.values(data.errors)[0];
+                    
+                    btn.disabled = false;
+                }
+                else {
+                    alertElement.className = "alert alert-danger mb-3 text-center";
+                    alertElement.innerHTML = Object.values(data.errors)[0];
+                    
+                    setTimeout(function(){
+                        location.assign('/user/forgot-password');
+                    }, 3000);
+                }
+                
+                btn.innerHTML = 'Reset Password';
+                form.password.value = "";
+            }
+            if (data.success) {
+                btn.innerHTML = 'Reset Password';
+                
+                alertElement.className = "alert alert-success mb-3 text-center";
+                alertElement.innerHTML = Object.values(data.success)[0] + ".<br>Redirecting to Login Page";
+                
+                form.password.value = "";
+                
+                setTimeout(function(){
+                    location.assign('/user/login');
+                }, 3000);
+            }
+        }
+        catch (err) {
+            form.password.value = "";
+            
+            alertElement.className = "alert alert-danger mb-3 text-center";
+            alertElement.innerHTML = "Server Error! Try Again";
+
+            btn.disabled = false;
+            btn.innerHTML = 'Reset Password';
+        }
+    });
+</script>

@@ -1,0 +1,108 @@
+<div class="container-fluid">
+    <div class="row">  
+        <!-- Table Column -->
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-success">
+                    <div class="row">
+                        <div class="col-12 col-xl-9 col-lg-8">
+                            <h4 class="card-title">Users</h4>
+                            <p class="card-category">Listing of all registered Users</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table" id="departments-table">
+                            <thead class="text-primary text-center">
+                                <th>Name</th><th>Email</th><th>Role</th><th>Approval Status</th><th>Created On</th><th>Action</th>
+                            </thead>
+                            <tbody>
+                                {{#each users}}
+                                <tr class="text-center">
+                                    <td class="d-none">{{this._id}}</td>
+                                    <td>{{this.name}}</td>
+                                    <td>{{this.email}}</td>
+                                    {{#if this.isAdmin}}<td class="text-info">Administrator</td>{{else}}<td>User</td>{{/if}}
+                                    {{#if this.isApproved}}<td>Approved</td>{{else}}<td class="text-warning">Not Approved</td>{{/if}}
+                                    <td>{{formatDate this.createdAt}}</td>
+                                    <td>
+                                        {{#unless this.isApproved}}<button class="btn btn-success btn-round btn-fab" id="updateApproval"><span class="material-icons" data-toggle="tooltip" data-html="true" title="Edit"> thumb_up </span></button>{{/unless}}
+                                        {{#unless this.isAdmin}}<button class="btn btn-danger btn-round btn-fab" id="deleteUser"><span class="material-icons" data-toggle="tooltip" data-html="true" title="Remove"> delete_forever </span></button>{{else}}No Action{{/unless}}
+                                    </td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const updateElements = document.querySelectorAll('#updateApproval');
+    if (updateElements.length > 0) {
+        for (updateElement of updateElements) {
+            updateElement.addEventListener('click', async (event) => {
+                const target = (event.currentTarget) ? event.currentTarget : event.srcElement;
+                target.disabled = true;
+                const usr = target.parentNode.parentNode.children[0].innerHTML;
+
+                try {
+                    const res = await fetch('/panel/approveUser', {
+                        method: 'PATCH',
+                        body: JSON.stringify({ usr }),
+                        headers: { 'Content-Type' : 'application/json' }
+                    });
+
+                    const data = await res.json();    
+                    if (data.errors) {
+                        md.showNotification('top', 'right', 'danger', data.errors.server);
+                    }
+                    if (data.success) {
+                        md.showNotification('top', 'right', 'success', data.success.message);
+                        setTimeout(() => { location.reload(); }, 3000);
+                    }
+                }
+                catch (err) {
+                    console.error(err);
+                    md.showNotification('top', 'right', 'danger', err.message);
+                }
+            });
+        }
+    }
+
+    const deleteElements = document.querySelectorAll('#deleteUser');
+    if (deleteElements.length > 0) {
+        for (deleteElem of deleteElements) {
+            deleteElem.addEventListener('click', async (event) => {
+                const target = (event.currentTarget) ? event.currentTarget : event.srcElement;
+                target.disabled = true;
+                const usr = target.parentNode.parentNode.children[0].innerHTML;
+
+                try {
+                    const res = await fetch('/panel/deleteUser', {
+                        method: 'PATCH',
+                        body: JSON.stringify({ usr }),
+                        headers: { 'Content-Type' : 'application/json' }
+                    });
+
+                    const data = await res.json();    
+                    if (data.errors) {
+                        md.showNotification('top', 'right', 'danger', data.errors.server);
+                    }
+                    if (data.success) {
+                        md.showNotification('top', 'right', 'warning', data.success.message);
+                        setTimeout(() => { location.reload(); }, 3000);
+                    }
+                }
+                catch (err) {
+                    console.error(err);
+                    md.showNotification('top', 'right', 'danger', err.message);
+                }
+            });
+        }
+    }
+</script>

@@ -1,0 +1,185 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card card-profile">
+                <form class="md-form">
+                    <div class="card-header card-header-primary">
+                        <div class="card-avatar">
+                            <img class="card-img" src="../images/profile.png" />
+                        </div>
+                    </div>
+                        <div class="card-body">
+                        <br>
+                        
+                        <!-- Personal Info-->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Name</label>
+                                    <input type="text" name="profileName" class="form-control" value="{{user.name}}" required disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Contact Info -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Email</label>
+                                    <input type="email" name="profileEmail" class="form-control" value="{{user.email}}" required disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Phone</label>
+                                    <input type="text" name="profilePhone" class="form-control" value="1234567890" required disabled>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Role</label>
+                                    <input type="text" name="profileRole" class="form-control" value="{{#if user.isAdmin}}Administrator{{else}}User{{/if}}" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <!-- Buttons - Footer -->
+                    <div class="card-footer pb-2">
+                        <div class="row w-100">
+                            <div class="col-md-6">
+                                <button type="button" class="btn btn-info btn-round text-center" data-toggle="modal" data-target="#updatePasswordModal"><span class="material-icons">vpn_keys</span>&nbsp;Change Password</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Profile Card -->
+
+<!-- Modals -->
+<!-- Change Password Modal -->
+<div class="modal fade" id="updatePasswordModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content card">
+            <div class="modal-header card-header-success">
+                <h5 class="card-title">Change Password</h5>
+                <button type="button" class="close card-header-icon" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class="card-body md-form">
+                <div class="modal-body">
+                    <!-- Old Password Info-->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Old Password</label>
+                                <input type="password" name="oldPassword" class="form-control" required autocomplete="off">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- New Password Info -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">New Password</label>
+                                <input type="password" name="newPassword" class="form-control" required autocomplete="off">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert my-2 d-none" role="alert"></div>
+                    <div class="clearfix"></div>
+                </div>
+                <!-- Submit Buttons -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-round">Update Password</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End Change Password Modal -->
+
+
+<script>
+    const form = document.querySelector('form.card-body');
+    const btn = document.querySelector('form button');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Reset errors for every submit
+        const invalidElements = document.querySelectorAll('.is-invalid');
+        [].forEach.call(invalidElements, function(invalidElement) {
+            invalidElement.classList.remove('is-invalid');
+        });
+        const alertElement = document.querySelector('form div.alert');
+        alertElement ? alertElement.className = "alert my-2 d-none" : '';
+        alertElement.innerHTML = '';
+
+        // Disable Submit button
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Updating Password...';
+
+        // Get Form Data
+        const oldPassword = form.oldPassword.value;
+        const newPassword = form.newPassword.value;
+
+        try {
+            const res = await fetch('/panel/change-password', {
+                method: 'PATCH',
+                body: JSON.stringify({ oldPassword, newPassword }),
+                headers: { 'Content-Type' : 'application/json' }
+            });
+        
+            const data = await res.json();    
+            if (data.errors) {
+                // Handle Validation errors here
+                const errKeys = Object.keys(data.errors);
+                if (errKeys[0] != 'server') {
+                    [].forEach.call(errKeys, function(errKey) {
+                        const errElement = form.elements.namedItem(errKey);
+                        errElement.classList.add('is-invalid');
+                        errElement.nextElementSibling.innerHTML = data.errors[errKey]; 
+                    });
+                }
+                else {
+                    alertElement.className = "alert alert-danger my-2 text-center";
+                    alertElement.innerHTML = Object.values(data.errors)[0];
+                }
+                form.oldPassword.value = form.newPassword.value = '';
+
+                btn.disabled = false;
+                btn.innerHTML = 'Update Password';
+            }
+            if (data.success) {
+                btn.innerHTML = 'Update Password';
+
+                alertElement.className = "alert alert-success my-2 text-center";
+                alertElement.innerHTML = Object.values(data.success)[0];
+
+                form.oldPassword.value = form.newPassword.value = '';
+                
+                setTimeout(function(){
+                    location.assign('/user/logout');
+                }, 4000);
+            }
+        }
+        catch (err) {
+            alertElement.className = "alert alert-danger my-2 text-center";
+            alertElement.innerHTML = "Server Error! Try Again";
+
+            form.oldPassword.value = form.newPassword.value = '';
+
+            btn.disabled = false;
+            btn.innerHTML = 'Update Password';
+        }
+    });
+</script>
