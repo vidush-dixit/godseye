@@ -232,8 +232,34 @@ const highlightResults = (predictions) => {
     
     for (let n = 0; n < predictions[0].length; n++) {
         // Check scores
-        if (predictions[1][n] > 0.20) {
-            console.log(predictions);
+        if (predictions[1][n] > 0.13) {
+            const predictObjectArray = [];
+            for (let i=0; i<predictions[1].length;i++) {
+                const predictObject = {};
+                predictObject['class'] = predictions[2][n];
+                predictObject['score'] = parseFloat(predictions[1][n]*100).toFixed(2);
+                const now = new Date();
+                predictObject['date'] = now.getDate()+'-'+(now.getMonth()+1)+'-'+now.getFullYear();
+                predictObject['time'] = ((now.getHours() < 10) ? `0${now.getHours()}` : now.getHours()) + ":" + ((now.getMinutes()<10) ? `0${now.getMinutes()}` : now.getMinutes());
+                predictObjectArray.push(predictObject);
+            }
+            // use slice() to copy the array and not just make a reference
+            const sortedByScore = predictObjectArray.slice(0);
+            sortedByScore.sort(function(a,b) {
+                return a.score - b.score;
+            });
+            const arrayUniqueByClass = [...new Map(sortedByScore.map(item => [item['class'], item])).values()];
+            const tableBody = document.querySelector('.table tbody');
+            if (tableBody.getElementsByTagName('tr')[0].children[3] && arrayUniqueByClass[0].time.split(':')[1] - tableBody.getElementsByTagName('tr')[0].children[3].textContent.split(':')[1] >= 5) {
+                for (const elem of arrayUniqueByClass) {
+                    tableBody.innerHTML = `<tr><td>${TARGET_CLASSES[elem.class]}</td><td>${elem.score}</td><td>${elem.date}</td><td>${elem.time}</td></tr>`+tableBody.innerHTML;
+                }
+            } else {
+                for (const elem of arrayUniqueByClass) {
+                    tableBody.innerHTML = `<tr><td>${TARGET_CLASSES[elem.class]}</td><td>${elem.score}</td><td>${elem.date}</td><td>${elem.time}</td></tr>`+tableBody.innerHTML;
+                }
+            }
+
             const p = document.createElement('p');
             p.innerText = TARGET_CLASSES[predictions[2][n]]  + ': ' 
                 + Math.round(parseFloat(predictions[1][n]) * 100) 
